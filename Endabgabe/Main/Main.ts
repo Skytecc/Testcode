@@ -45,7 +45,7 @@ namespace Feuerwerk {
         //Update Funktion
 
         for (let circle of rockets) {
-            circle.draw();
+            //circle.draw();
 
             //circle.update();
 
@@ -58,7 +58,7 @@ namespace Feuerwerk {
             });  */
         }
 
-        requestAnimationFrame(textExplode);
+        requestAnimationFrame(testExplode);
 
     }
 
@@ -102,7 +102,7 @@ namespace Feuerwerk {
         let positionY: number = _event.clientY - rect.top;
         console.log(positionX, positionY);
 
-        let position: Vector = { x: positionX, y: positionY };
+        //let position: Vector = { x: positionX, y: positionY };
 
 
         /* let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
@@ -117,11 +117,15 @@ namespace Feuerwerk {
 
         for (let i: number = 0; i <= 10; i++) {
 
+            let position: Vector = { x: positionX, y: positionY };
+
             let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
             let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
             let radius: number = Math.random() * 3;
 
-            particles.push(new Circle(position, "test", color, color, radius, dx, dy));
+            let circle: Rocket = new Circle(position, "test", color, color, radius, dx, dy)
+
+            particles.push(circle);
         }
 
         particles.forEach(element => {
@@ -137,13 +141,13 @@ namespace Feuerwerk {
         console.log(particles);
     }
 
-    function textExplode(): void {
+    function testExplode(): void {
 
         let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector("#canvas");
 
         crc2.clearRect(0, 0, canvas.width, canvas.height);
 
-        rockets.forEach((circle, i) => {
+        particles.forEach((circle, i) => {
 
             if (circle.alpha <= 0) {
                 rockets.splice(i, 1);
@@ -153,10 +157,9 @@ namespace Feuerwerk {
 
     }
 
-    function clearArray(): void {
+    function clearArray(_array: Rocket[]): void {
 
-
-
+        _array.splice(0, _array.length);
     }
 
 

@@ -12,17 +12,17 @@ var Feuerwerk;
             this.dx = _dx;
             this.dy = _dy;
         }
+        draw() {
+            Feuerwerk.crc2.save();
+            this.drawArc(this.position.x, this.position.y, 5, 0, 2 * Math.PI, "red");
+            Feuerwerk.crc2.restore();
+            //console.log("Ich werde gezeichnet!");
+        }
         update() {
             this.draw();
             this.alpha -= 0.01;
             this.position.x += this.dx;
             this.position.y += this.dy;
-        }
-        draw() {
-            Feuerwerk.crc2.save();
-            this.drawArc(this.position.x, this.position.y, 5, 0, 2 * Math.PI, "red");
-            Feuerwerk.crc2.restore();
-            console.log("Ich werde gezeichnet!");
         }
         drawArc(_x, _y, _radius, _startAngle, _endAngle, _color) {
             Feuerwerk.crc2.beginPath();

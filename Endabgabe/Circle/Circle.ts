@@ -17,16 +17,6 @@ namespace Feuerwerk {
             this.dy = _dy;
         }
 
-        public update(): void {
-
-            this.draw();
-            this.alpha -= 0.01;
-            this.position.x += this.dx;
-            this.position.y += this.dy;
-
-
-        }
-
         public draw(): void {
 
             crc2.save();            
@@ -35,7 +25,15 @@ namespace Feuerwerk {
 
             crc2.restore();
             
-            console.log("Ich werde gezeichnet!");
+            //console.log("Ich werde gezeichnet!");
+        }
+
+        public update(): void {
+
+            this.draw();
+            this.alpha -= 0.01;
+            this.position.x += this.dx;
+            this.position.y += this.dy;
 
         }
 

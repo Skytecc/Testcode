@@ -26,7 +26,7 @@ var Feuerwerk;
     function update() {
         //Update Funktion
         for (let circle of rockets) {
-            circle.draw();
+            //circle.draw();
             //circle.update();
             /* rockets.forEach((circle, i) => {
 
@@ -36,7 +36,7 @@ var Feuerwerk;
                 
             });  */
         }
-        requestAnimationFrame(textExplode);
+        requestAnimationFrame(testExplode);
     }
     function drawRocket(_event) {
         let canvas = document.querySelector("#canvas");
@@ -61,7 +61,7 @@ var Feuerwerk;
         let positionX = _event.clientX - rect.left;
         let positionY = _event.clientY - rect.top;
         console.log(positionX, positionY);
-        let position = { x: positionX, y: positionY };
+        //let position: Vector = { x: positionX, y: positionY };
         /* let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
         let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
         let radius: number = Math.random() * 3; */
@@ -70,10 +70,12 @@ var Feuerwerk;
         let rgba3 = Math.floor(Math.random() * 255);
         let color = "RGB" + "(" + rgba1 + "," + rgba2 + "," + rgba3 + ")";
         for (let i = 0; i <= 10; i++) {
+            let position = { x: positionX, y: positionY };
             let dx = (Math.random() - 0.5) * (Math.random() * 6);
             let dy = (Math.random() - 0.5) * (Math.random() * 6);
             let radius = Math.random() * 3;
-            particles.push(new Feuerwerk.Circle(position, "test", color, color, radius, dx, dy));
+            let circle = new Feuerwerk.Circle(position, "test", color, color, radius, dx, dy);
+            particles.push(circle);
         }
         particles.forEach(element => {
             rockets.push(element);
@@ -82,16 +84,19 @@ var Feuerwerk;
         //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
         console.log(particles);
     }
-    function textExplode() {
+    function testExplode() {
         let canvas = document.querySelector("#canvas");
         Feuerwerk.crc2.clearRect(0, 0, canvas.width, canvas.height);
-        rockets.forEach((circle, i) => {
+        particles.forEach((circle, i) => {
             if (circle.alpha <= 0) {
                 rockets.splice(i, 1);
             }
             else
                 circle.update();
         });
+    }
+    function clearArray(_array) {
+        _array.splice(0, _array.length);
     }
 })(Feuerwerk || (Feuerwerk = {}));
 //# sourceMappingURL=Main.js.map
