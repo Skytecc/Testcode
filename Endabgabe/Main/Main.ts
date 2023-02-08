@@ -159,7 +159,7 @@ namespace Feuerwerk {
         particles.forEach((circle, i) => {
 
             if (circle.alpha <= 0) {
-                rockets.splice(i, 1);
+                particles.splice(i, 1);
             } else circle.update();
 
         });

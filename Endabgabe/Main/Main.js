@@ -99,7 +99,7 @@ var Feuerwerk;
         Feuerwerk.crc2.clearRect(0, 0, canvas.width, canvas.height);
         particles.forEach((circle, i) => {
             if (circle.alpha <= 0) {
-                rockets.splice(i, 1);
+                particles.splice(i, 1);
             }
             else
                 circle.update();
