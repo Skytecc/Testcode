@@ -82,7 +82,7 @@ namespace Feuerwerk {
         let position: Vector = { x: positionX, y: positionY };
 
         //console.log(position);
-        
+
 
         let rgba1: number = Math.floor(Math.random() * 255);
         let rgba2: number = Math.floor(Math.random() * 255);
@@ -130,6 +130,8 @@ namespace Feuerwerk {
             particles.push(circle);
         }
 
+        console.log(particles);
+
         /* particles.forEach(element => {
 
             rockets.push(element);
@@ -137,12 +139,12 @@ namespace Feuerwerk {
             
         }); */
 
-        for (let elements of particles) {
+     /*    for (let elements of particles) {
 
             rockets.push(elements);
             console.log(rockets);
         }
-
+ */
         //rockets(particles.values);
 
         //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
@@ -157,15 +159,25 @@ namespace Feuerwerk {
 
         crc2.clearRect(0, 0, canvas.width, canvas.height);
 
-        particles.forEach((circle, i) => {
+    /*     particles.forEach((circle, i) => {
 
             if (circle.alpha <= 0) {
                 particles.splice(i, 1);
             } else circle.update();
 
-        });
+        }); */
 
+        for (let circle of particles) {
+            if (circle.alpha <= 0) {
+              let index: number = particles.indexOf(circle);
+              particles.splice(index, 1);
+            }
+            else {
+              circle.update(); 
+            }
+          }
 
+        //console.log(particles);
 
     }
 

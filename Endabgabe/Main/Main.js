@@ -79,16 +79,19 @@ var Feuerwerk;
             let circle = new Feuerwerk.Circle(position, "test", color, color, radius, dx, dy);
             particles.push(circle);
         }
+        console.log(particles);
         /* particles.forEach(element => {
 
             rockets.push(element);
             console.log(rockets);
             
         }); */
-        for (let elements of particles) {
-            rockets.push(elements);
-            console.log(rockets);
-        }
+        /*    for (let elements of particles) {
+   
+               rockets.push(elements);
+               console.log(rockets);
+           }
+    */
         //rockets(particles.values);
         //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
         /* console.log(particles);
@@ -97,13 +100,23 @@ var Feuerwerk;
     function testExplode() {
         let canvas = document.querySelector("#canvas");
         Feuerwerk.crc2.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach((circle, i) => {
+        /*     particles.forEach((circle, i) => {
+    
+                if (circle.alpha <= 0) {
+                    particles.splice(i, 1);
+                } else circle.update();
+    
+            }); */
+        for (let circle of particles) {
             if (circle.alpha <= 0) {
-                particles.splice(i, 1);
+                let index = particles.indexOf(circle);
+                particles.splice(index, 1);
             }
-            else
+            else {
                 circle.update();
-        });
+            }
+        }
+        //console.log(particles);
     }
     function clearArray(_array) {
         //
