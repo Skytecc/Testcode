@@ -125,7 +125,7 @@ namespace Feuerwerk {
             let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
             let radius: number = Math.random() * 3;
 
-            let circle: Rocket = new Circle(position, "test", color, color, radius, dx, dy);
+            let circle: Rocket = new Circle(position, "test", color, color, 5, dx, dy);
 
             particles.push(circle);
         }

@@ -76,7 +76,7 @@ var Feuerwerk;
             let dx = (Math.random() - 0.5) * (Math.random() * 6);
             let dy = (Math.random() - 0.5) * (Math.random() * 6);
             let radius = Math.random() * 3;
-            let circle = new Feuerwerk.Circle(position, "test", color, color, radius, dx, dy);
+            let circle = new Feuerwerk.Circle(position, "test", color, color, 5, dx, dy);
             particles.push(circle);
         }
         console.log(particles);
