@@ -82,6 +82,7 @@ namespace Feuerwerk {
         let position: Vector = { x: positionX, y: positionY };
 
         //console.log(position);
+        
 
         let rgba1: number = Math.floor(Math.random() * 255);
         let rgba2: number = Math.floor(Math.random() * 255);
