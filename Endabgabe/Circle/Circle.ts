@@ -21,7 +21,7 @@ namespace Feuerwerk {
 
             crc2.save();            
             
-            this.drawArc(this.position.x, this.position.y, 5, 0, 2 * Math.PI, "red");
+            this.drawArc(this.position.x, this.position.y, 5, 0, 2 * Math.PI, this.color1);
 
             crc2.restore();
             

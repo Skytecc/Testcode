@@ -13,11 +13,13 @@ namespace Feuerwerk {
         y: number;
     }
 
+    let canvas: HTMLCanvasElement;
+
     let rockets: Rocket[] = [];
 
     let particles: Rocket[] = [];
 
-    let coordinates: [] = [];
+    //let coordinates: [] = [];
 
     window.addEventListener("load", handleload);
 
@@ -25,7 +27,7 @@ namespace Feuerwerk {
 
     function handleload(): void {
 
-        let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector("#canvas");
+        canvas = <HTMLCanvasElement>document.querySelector("#canvas");
 
         // Siehe Canvas Lektion
         if (!canvas) {
@@ -37,6 +39,8 @@ namespace Feuerwerk {
 
         canvas.addEventListener("click", testRocket);
 
+        clearArray(particles);
+
         window.setInterval(update, 20);
 
     }
@@ -44,7 +48,7 @@ namespace Feuerwerk {
     function update(): void {
         //Update Funktion
 
-        for (let circle of rockets) {
+     /*    for (let circle of rockets) {
             //circle.draw();
 
             //circle.update();
@@ -55,8 +59,8 @@ namespace Feuerwerk {
                      rockets.splice(i, 1);
                 }
                 
-            });  */
-        }
+            });
+        } */
 
         requestAnimationFrame(testExplode);
 
@@ -65,7 +69,6 @@ namespace Feuerwerk {
 
     function drawRocket(_event: MouseEvent): void {
 
-        let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector("#canvas");
 
         //DomRect = getBoundingClientrect gibt wieder an welcher Position das Objekt ist, es auf dem HTML ist.
         //Bzw, Wo das Canvas im HTML ist. Positioniert dieses und somit kann man die x und y Werte vom Canvas lesen. 
@@ -88,14 +91,12 @@ namespace Feuerwerk {
 
         //rockets.push(new Circle(position, "test", color, color));
 
-        console.log(rockets);
+        //console.log(rockets);
 
     }
 
     function testRocket(_event: MouseEvent): void {
-
-        let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector("#canvas");
-
+        
         let rect: DOMRect = canvas.getBoundingClientRect();
 
         let positionX: number = _event.clientX - rect.left;
@@ -123,22 +124,30 @@ namespace Feuerwerk {
             let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
             let radius: number = Math.random() * 3;
 
-            let circle: Rocket = new Circle(position, "test", color, color, radius, dx, dy)
+            let circle: Rocket = new Circle(position, "test", color, color, radius, dx, dy);
 
             particles.push(circle);
         }
 
-        particles.forEach(element => {
+        /* particles.forEach(element => {
 
             rockets.push(element);
+            console.log(rockets);
             
-        });
+        }); */
+
+        for (let elements of particles) {
+
+            rockets.push(elements);
+            console.log(rockets);
+        }
 
         //rockets(particles.values);
 
         //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
 
-        console.log(particles);
+        /* console.log(particles);
+        console.log(rockets); */
     }
 
     function testExplode(): void {
@@ -155,11 +164,12 @@ namespace Feuerwerk {
 
         });
 
+
+
     }
 
     function clearArray(_array: Rocket[]): void {
-
-        _array.splice(0, _array.length);
+        //
     }
 
 
