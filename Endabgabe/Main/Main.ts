@@ -15,6 +15,8 @@ namespace Feuerwerk {
 
     let rockets: Rocket[] = [];
 
+    let particles: Rocket[] = [];
+
     let coordinates: [] = [];
 
     window.addEventListener("load", handleload);
@@ -45,16 +47,18 @@ namespace Feuerwerk {
         for (let circle of rockets) {
             circle.draw();
 
-            circle.update();
+            //circle.update();
 
-            rockets.forEach((circle, i) => {
+            /* rockets.forEach((circle, i) => {
 
                 if (circle.alpha <= 0) {
                      rockets.splice(i, 1);
                 }
                 
-            });
+            });  */
         }
+
+        requestAnimationFrame(textExplode);
 
     }
 
@@ -98,25 +102,54 @@ namespace Feuerwerk {
         let positionY: number = _event.clientY - rect.top;
         console.log(positionX, positionY);
 
-
         let position: Vector = { x: positionX, y: positionY };
 
 
-        let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
+        /* let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
         let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
-        let radius: number = Math.random() * 3;
-        
+        let radius: number = Math.random() * 3; */
+
         let rgba1: number = Math.floor(Math.random() * 255);
         let rgba2: number = Math.floor(Math.random() * 255);
         let rgba3: number = Math.floor(Math.random() * 255);
 
         let color: string = "RGB" + "(" + rgba1 + "," + rgba2 + "," + rgba3 + ")";
 
+        for (let i: number = 0; i <= 10; i++) {
 
-        rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
+            let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
+            let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
+            let radius: number = Math.random() * 3;
 
-        console.log(rockets);
+            particles.push(new Circle(position, "test", color, color, radius, dx, dy));
+        }
 
+        particles.forEach(element => {
+
+            rockets.push(element);
+            
+        });
+
+        //rockets(particles.values);
+
+        //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
+
+        console.log(particles);
+    }
+
+    function textExplode(): void {
+
+        let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector("#canvas");
+
+        crc2.clearRect(0, 0, canvas.width, canvas.height);
+
+        rockets.forEach((circle, i) => {
+
+            if (circle.alpha <= 0) {
+                rockets.splice(i, 1);
+            } else circle.update();
+
+        });
 
     }
 

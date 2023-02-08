@@ -9,6 +9,7 @@ Quellen: <Ann-Kathrin Haas>
 var Feuerwerk;
 (function (Feuerwerk) {
     let rockets = [];
+    let particles = [];
     let coordinates = [];
     window.addEventListener("load", handleload);
     function handleload() {
@@ -26,13 +27,16 @@ var Feuerwerk;
         //Update Funktion
         for (let circle of rockets) {
             circle.draw();
-            circle.update();
-            rockets.forEach((circle, i) => {
+            //circle.update();
+            /* rockets.forEach((circle, i) => {
+
                 if (circle.alpha <= 0) {
-                    rockets.splice(i, 1);
+                     rockets.splice(i, 1);
                 }
-            });
+                
+            });  */
         }
+        requestAnimationFrame(textExplode);
     }
     function drawRocket(_event) {
         let canvas = document.querySelector("#canvas");
@@ -58,15 +62,36 @@ var Feuerwerk;
         let positionY = _event.clientY - rect.top;
         console.log(positionX, positionY);
         let position = { x: positionX, y: positionY };
-        let dx = (Math.random() - 0.5) * (Math.random() * 6);
-        let dy = (Math.random() - 0.5) * (Math.random() * 6);
-        let radius = Math.random() * 3;
+        /* let dx: number = (Math.random() - 0.5) * (Math.random() * 6);
+        let dy: number = (Math.random() - 0.5) * (Math.random() * 6);
+        let radius: number = Math.random() * 3; */
         let rgba1 = Math.floor(Math.random() * 255);
         let rgba2 = Math.floor(Math.random() * 255);
         let rgba3 = Math.floor(Math.random() * 255);
         let color = "RGB" + "(" + rgba1 + "," + rgba2 + "," + rgba3 + ")";
-        rockets.push(new Feuerwerk.Circle(position, "test", color, color, radius, dx, dy));
-        console.log(rockets);
+        for (let i = 0; i <= 10; i++) {
+            let dx = (Math.random() - 0.5) * (Math.random() * 6);
+            let dy = (Math.random() - 0.5) * (Math.random() * 6);
+            let radius = Math.random() * 3;
+            particles.push(new Feuerwerk.Circle(position, "test", color, color, radius, dx, dy));
+        }
+        particles.forEach(element => {
+            rockets.push(element);
+        });
+        //rockets(particles.values);
+        //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
+        console.log(particles);
+    }
+    function textExplode() {
+        let canvas = document.querySelector("#canvas");
+        Feuerwerk.crc2.clearRect(0, 0, canvas.width, canvas.height);
+        rockets.forEach((circle, i) => {
+            if (circle.alpha <= 0) {
+                rockets.splice(i, 1);
+            }
+            else
+                circle.update();
+        });
     }
 })(Feuerwerk || (Feuerwerk = {}));
 //# sourceMappingURL=Main.js.map
