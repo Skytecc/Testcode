@@ -153,5 +153,11 @@ namespace Feuerwerk {
 
     }
 
+    function clearArray(): void {
+
+
+
+    }
+
 
 }
