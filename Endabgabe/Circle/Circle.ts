@@ -8,7 +8,7 @@ namespace Feuerwerk {
         private dx: number;
 
         private dy: number;
-        
+
         constructor(_position: Vector, _name: string, _color1: string, _color2: string, _radius: number, _dx: number, _dy: number) {
             super(_position, _name, _color1, _color2);
 

@@ -48,19 +48,19 @@ namespace Feuerwerk {
     function update(): void {
         //Update Funktion
 
-     /*    for (let circle of rockets) {
-            //circle.draw();
-
-            //circle.update();
-
-            /* rockets.forEach((circle, i) => {
-
-                if (circle.alpha <= 0) {
-                     rockets.splice(i, 1);
-                }
-                
-            });
-        } */
+        /*    for (let circle of rockets) {
+               //circle.draw();
+   
+               //circle.update();
+   
+               /* rockets.forEach((circle, i) => {
+   
+                   if (circle.alpha <= 0) {
+                        rockets.splice(i, 1);
+                   }
+                   
+               });
+           } */
 
         requestAnimationFrame(testExplode);
 
@@ -96,8 +96,14 @@ namespace Feuerwerk {
 
     }
 
+    function getRandomInt(_min: number, _max: number): number {
+        _min = Math.ceil(_min);
+        _max = Math.floor(_max);
+        return Math.floor(Math.random() * (_max - _min + 1)) + _min;
+    }
+
     function testRocket(_event: MouseEvent): void {
-        
+
         let rect: DOMRect = canvas.getBoundingClientRect();
 
         let positionX: number = _event.clientX - rect.left;
@@ -139,12 +145,12 @@ namespace Feuerwerk {
             
         }); */
 
-     /*    for (let elements of particles) {
-
-            rockets.push(elements);
-            console.log(rockets);
-        }
- */
+        /*    for (let elements of particles) {
+   
+               rockets.push(elements);
+               console.log(rockets);
+           }
+    */
         //rockets(particles.values);
 
         //rockets.push(new Circle(position, "test", color, color, radius, dx, dy));
@@ -159,23 +165,23 @@ namespace Feuerwerk {
 
         crc2.clearRect(0, 0, canvas.width, canvas.height);
 
-    /*     particles.forEach((circle, i) => {
-
-            if (circle.alpha <= 0) {
-                particles.splice(i, 1);
-            } else circle.update();
-
-        }); */
+        /*     particles.forEach((circle, i) => {
+    
+                if (circle.alpha <= 0) {
+                    particles.splice(i, 1);
+                } else circle.update();
+    
+            }); */
 
         for (let circle of particles) {
             if (circle.alpha <= 0) {
-              let index: number = particles.indexOf(circle);
-              particles.splice(index, 1);
+                let index: number = particles.indexOf(circle);
+                particles.splice(index, 1);
             }
             else {
-              circle.update(); 
+                circle.update();
             }
-          }
+        }
 
         //console.log(particles);
 
