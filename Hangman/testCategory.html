@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategorien Hangman Spiel</title>
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kategorien Hangman Spiel</h1>
+    <p>Wählen Sie eine Kategorie aus:</p>
+    <ul id="categories">
+        <li data-category="Tiere">Tiere</li>
+        <li data-category="Städte">Städte</li>
+        <li data-category="Früchte">Früchte</li>
+    </ul>
+    <div id="game-container" style="display: none;">
+        <h2>Kategorie: <span id="category"></span></h2>
+        <div id="word"></div>
+        <div id="letters"></div>
+    </div>
+
+    <script>
+        const categories = {
+            Tiere: ["HUND", "KATZE", "ELEFANT", "GIRAFFE", "PANDA"],
+            Städte: ["BERLIN", "PARIS", "LONDON", "ROM", "TOKIO"],
+            Früchte: ["APFEL", "BANANE", "ERDBEERE", "KIRSCHEN", "ANANAS"]
+        };
+
+        const categoryList = document.getElementById('categories');
+        const gameContainer = document.getElementById('game-container');
+        const categoryDisplay = document.getElementById('category');
+        const wordElement = document.getElementById('word');
+        const lettersElement = document.getElementById('letters');
+
+        categoryList.addEventListener('click', (event) => {
+            if (event.target.tagName === 'LI') {
+                const selectedCategory = event.target.getAttribute('data-category');
+                const wordsInCategory = categories[selectedCategory];
+                const randomWord = wordsInCategory[Math.floor(Math.random() * wordsInCategory.length)];
+
+                // Starte das Spiel mit dem zufälligen Wort aus der ausgewählten Kategorie
+                startGame(selectedCategory, randomWord);
+            }
+        });
+
+        function startGame(category, word) {
+            // Verberge die Kategorienliste und zeige das Spiel
+            categoryList.style.display = 'none';
+            gameContainer.style.display = 'block';
+
+            // Setze die Kategorie-Anzeige
+            categoryDisplay.textContent = category;
+
+            // Initialisiere das Hangman-Spiel mit dem ausgewählten Wort
+            initializeHangman(word);
+        }
+
+        function initializeHangman(wordToGuess) {
+            const wordArray = wordToGuess.split('');
+            const guessedWord = new Array(wordArray.length).fill('_');
+            let incorrectGuesses = 0;
+
+            function updateWordDisplay() {
+                wordElement.textContent = guessedWord.join(' ');
+            }
+
+            function checkLetter(letter) {
+                const letterIndices = [];
+                for (let i = 0; i < wordArray.length; i++) {
+                    if (wordArray[i] === letter) {
+                        letterIndices.push(i);
+                    }
+                }
+
+                if (letterIndices.length > 0) {
+                    letterIndices.forEach(index => {
+                        guessedWord[index] = letter;
+                    });
+
+                    updateWordDisplay();
+                    if (!guessedWord.includes('_')) {
+                        alert('Gewonnen! Das Wort lautet: ' + wordToGuess);
+                        resetGame();
+                    }
+                } else {
+                    incorrectGuesses++;
+                    if (incorrectGuesses >= 6) {
+                        alert('Verloren! Das Wort lautet: ' + wordToGuess);
+                        resetGame();
+                    }
+                }
+            }
+
+            function createLetterButton(letter) {
+                const button = document.createElement('button');
+                button.textContent = letter;
+                button.className = 'letter';
+                button.addEventListener('click', () => {
+                    if (!button.classList.contains('used')) {
+                        button.classList.add('used');
+                        checkLetter(letter);
+                    }
+                });
+                return button;
+            }
+
+            for (let i = 65; i <= 90; i++) { // ASCII-Werte für A bis Z
+                const letter = String.fromCharCode(i);
+                lettersElement.appendChild(createLetterButton(letter));
+            }
+
+            updateWordDisplay();
+        }
+
+        function resetGame() {
+            // Zurück zur Kategorienauswahl
+            categoryList.style.display = 'block';
+            gameContainer.style.display = 'none';
+
+            // Lösche den Inhalt des Spiels
+            wordElement.textContent = '';
+            lettersElement.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
