@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman Spiel</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
         .letter {
             display: inline-block;
             margin: 5px;
@@ -24,12 +32,23 @@
             height: auto;
             display: none;
         }
+        .letter-row {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
     <h1>Hangman Spiel</h1>
     <div id="word"></div>
-    <div id="letters"></div>
+    <div id="letters">
+        <div class="letter-row" id="row1"></div>
+        <div class="letter-row" id="row2"></div>
+        <div class="letter-row" id="row3"></div>
+    </div>
     <div id="remaining-tries">Versuche übrig: 6</div> <!-- Initialer Zählerwert -->
     <img id="hangman-image" src="hangman0.png" alt="Hangman Image">
 
@@ -58,7 +77,9 @@
         let remainingTries = 6; // Gesamtzahl der Versuche
 
         const wordElement = document.getElementById('word');
-        const lettersElement = document.getElementById('letters');
+        const row1Element = document.getElementById('row1');
+        const row2Element = document.getElementById('row2');
+        const row3Element = document.getElementById('row3');
         const remainingTriesElement = document.getElementById('remaining-tries');
         const hangmanImage = document.getElementById('hangman-image');
 
@@ -133,9 +154,23 @@
             return button;
         }
 
-        for (let i = 65; i <= 90; i++) { // ASCII-Werte für A bis Z
-            const letter = String.fromCharCode(i);
-            lettersElement.appendChild(createLetterButton(letter));
+        const row1Letters = 'ABCDEFG';
+        const row2Letters = 'HIJKLMNOP';
+        const row3Letters = 'QRSTUVWXYZ';
+
+        for (let i = 0; i < row1Letters.length; i++) {
+            const letter = row1Letters[i];
+            row1Element.appendChild(createLetterButton(letter));
+        }
+
+        for (let i = 0; i < row2Letters.length; i++) {
+            const letter = row2Letters[i];
+            row2Element.appendChild(createLetterButton(letter));
+        }
+
+        for (let i = 0; i < row3Letters.length; i++) {
+            const letter = row3Letters[i];
+            row3Element.appendChild(createLetterButton(letter));
         }
 
         updateWordDisplay();
