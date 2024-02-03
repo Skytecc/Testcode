@@ -58,6 +58,11 @@ var Feuerwerk;
         //rockets.push(new Circle(position, "test", color, color));
         //console.log(rockets);
     }
+    function getRandomInt(_min, _max) {
+        _min = Math.ceil(_min);
+        _max = Math.floor(_max);
+        return Math.floor(Math.random() * (_max - _min + 1)) + _min;
+    }
     function testRocket(_event) {
         let rect = canvas.getBoundingClientRect();
         let positionX = _event.clientX - rect.left;

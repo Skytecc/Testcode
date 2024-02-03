@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="cssSchild.css">
-    <title>Document</title>
+    <style>
+
+        body {
+            background-color: black;
+        }
+
+        #video-container {
+            position: relative;
+            width: 800px; /* Breite Ihres Videos */
+            height: 450px; /* Höhe Ihres Videos */
+        }
+
+        video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
 </head>
 <body>
-    <div>
-        <div class="card">
-            <img class="img_base" src="Picture/Schild_schwarz.png" alt="Card Back">
-            <div class="box1"></div>
-            <img src="Picture/Schild_grün.png" class="img-top" alt="Card Front">
-        </div>
+    <div id="video-container">
+        <video autoplay loop muted id="background-video">
+            <source src="Szene2_OrangeFireflies.webm" type="video/webm">
+        </video>
+        <video autoplay muted id="overlay-video">
+            <source src="Szene2_02.webm" type="video/webm">
+        </video>
     </div>
 </body>
 </html>
