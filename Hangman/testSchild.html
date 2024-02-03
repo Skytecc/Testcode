@@ -2,33 +2,32 @@
 <html>
 <head>
     <style>
-
-        body {
-            background-color: black;
-        }
-
-        #video-container {
+        .image-container {
+            width: 200px; /* Breite des Container-Divs */
+            height: 200px; /* Höhe des Container-Divs */
+            background-color: #f0f0f0; /* Hintergrundfarbe des Container-Divs */
             position: relative;
-            width: 800px; /* Breite Ihres Videos */
-            height: 450px; /* Höhe Ihres Videos */
+            overflow: hidden;
         }
 
-        video {
+        .hover-image {
+            width: 100%; /* Breite des Bilds */
+            height: auto; /* Automatische Höhe entsprechend der Breite */
+            display: none; /* Das Bild ist standardmäßig ausgeblendet */
             position: absolute;
-            width: 100%;
-            height: 100%;
+            top: 0;
+            left: 0;
         }
 
+        .image-container:hover .hover-image {
+            display: block; /* Das Bild wird eingeblendet, wenn über das Div geschwebt wird */
+        }
     </style>
 </head>
 <body>
-    <div id="video-container">
-        <video autoplay loop muted id="background-video">
-            <source src="Szene2_OrangeFireflies.webm" type="video/webm">
-        </video>
-        <video autoplay muted id="overlay-video">
-            <source src="Szene2_02.webm" type="video/webm">
-        </video>
+    <div class="image-container">
+        <img class="hover-image" src="bild.jpg" alt="Bildbeschreibung">
     </div>
 </body>
 </html>
+
