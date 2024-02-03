@@ -160,62 +160,29 @@
         }
 
         function markIncorrectLetter(letter) {
-    const letterButtons = document.querySelectorAll('.letter');
-    letterButtons.forEach(button => {
-        if (button.textContent === letter) {
-            button.classList.add('used');
+            const letterButtons = document.querySelectorAll('.letter');
+            letterButtons.forEach(button => {
+                if (button.textContent === letter) {
+                    button.classList.add('used');
+                }
+            });
+
+            if (!sentenceArray.includes(letter)) {
+                hangmanImageIndex++; // Erhöhe den Index bei einem Fehlversuch
+                const maxImageIndex = 4; // Ändern Sie dies entsprechend der Anzahl Ihrer Hangman-Bilder
+                if (hangmanImageIndex <= maxImageIndex) {
+                    hangmanImage.src = `images/hangman${hangmanImageIndex}.png`;
+                }
+            }
+
+            if (remainingTries <= 0) { // Prüfen, ob alle Versuche aufgebraucht sind
+                gameInProgress = false;
+                newGameButton.style.display = 'block'; // Zeigen Sie den Neustart-Button an
+                tryAgainText.style.display = 'block';
+                hangmanImage.src = `images/hangman${maxImageIndex}.png`; // Aktualisieren des Bilds auf das letzte Hangman-Bild
+                // alert('Verloren! Der Satz lautet: ' + sentenceToGuess); // Wir haben die alert-Funktion auskommentiert, da wir den Neustart-Button verwenden
+            }
         }
-    });
-    
-    if (!sentenceArray.includes(letter)) {
-        hangmanImageIndex++; // Erhöhe den Index bei einem Fehlversuch
-        const maxImageIndex = 4; // Ändern Sie dies entsprechend der Anzahl Ihrer Hangman-Bilder
-        if (hangmanImageIndex <= maxImageIndex) {
-            hangmanImage.src = `images/hangman${hangmanImageIndex}.png`;
-        }
-        
-        //remainingTries--; // Reduzieren Sie die Anzahl der übrigen Versuche
-        //remainingTriesElement.textContent = 'Versuche übrig: ' + remainingTries; // Aktualisieren der Anzeige
-    }
-    
-    if (remainingTries <= 0) { // Prüfen, ob alle Versuche aufgebraucht sind
-        gameInProgress = false;
-        newGameButton.style.display = 'block'; // Zeigen Sie den Neustart-Button an
-        tryAgainText.style.display = 'block';
-        hangmanImage.src = `images/hangman${maxImageIndex}.png`; // Aktualisieren des Bilds auf das letzte Hangman-Bild
-        // alert('Verloren! Der Satz lautet: ' + sentenceToGuess); // Wir haben die alert-Funktion auskommentiert, da wir den Neustart-Button verwenden
-    }
-}
-
-
-        // function markIncorrectLetter(letter) {
-        //     const letterButtons = document.querySelectorAll('.letter');
-        //     letterButtons.forEach(button => {
-        //         if (button.textContent === letter) {
-        //             button.classList.add('used');
-        //         }
-        //     });
-
-        //     if (!sentenceArray.includes(letter)) {
-        //         hangmanImageIndex++; // Erhöhe den Index bei einem Fehlversuch
-        //         const maxImageIndex = 4; // Ändern Sie dies entsprechend der Anzahl Ihrer Hangman-Bilder
-        //         if (hangmanImageIndex <= maxImageIndex) {
-        //             hangmanImage.src = `images/hangman${hangmanImageIndex}.png`;
-        //         }
-
-        //         remainingTries--; // Reduzieren Sie die Anzahl der übrigen Versuche
-        //         remainingTriesElement.textContent = 'Versuche übrig: ' + remainingTries; // Aktualisieren der Anzeige
-        //     }
-
-        //     if (hangmanImageIndex >= maxImageIndex) { // Prüfen, ob das Maximum erreicht ist
-        //         gameInProgress = false;
-        //         newGameButton.style.display = 'block';
-        //         tryAgainText.style.display = 'block';
-        //         hangmanImage.src = `images/hangman${maxImageIndex}.png`; // Aktualisieren des Bilds auf das letzte Hangman-Bild
-        //         alert('Verloren! Der Satz lautet: ' + sentenceToGuess);
-        //     }
-        // }
-
 
         function markCorrectLetter(letter) {
             const letterButtons = document.querySelectorAll('.letter');
@@ -258,9 +225,7 @@
         newGameButton.addEventListener('click', () => {
             location.reload(); // Lädt die Seite neu, um ein neues Spiel zu starten
         });
-
-        console.log(remainingTries);
-
+        
         updateWordDisplay();
     </script>
 </body>

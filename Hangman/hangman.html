@@ -1,134 +1,83 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hangman Spiel</title>
-    <style>
-        .letter {
-            display: inline-block;
-            margin: 5px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .letter.used {
-            color: gray;
-        }
-    </style>
-</head>
-<body>
-    <h1>Hangman Spiel</h1>
-    <div id="word"></div>
-    <div id="letters"></div>
-
-    <script>
-        // Vordefinierte Sätze, die der Spieler erraten kann
-        const sentencesToGuess = [
-            "Das ist ein einfacher Satz",
-            "Programmieren macht Spaß",
-            "OpenAI ist großartig",
-            "Javascript ist eine Programmiersprache",
-            "Hangman ist ein lustiges Spiel",
-            "Computer sind leistungsstark",
-            "Ich liebe das Programmieren",
-            "Spiele machen Freude",
-            "Wörter raten ist herausfordernd",
-            "Entwicklung ist kreativ"
-        ];
-
-        // Zufällig einen Satz auswählen
-        const randomIndex = Math.floor(Math.random() * sentencesToGuess.length);
-        const sentenceToGuess = sentencesToGuess[randomIndex].toUpperCase();
-        const sentenceArray = sentenceToGuess.split('');
-        const guessedSentence = sentenceArray.map(char => (char === ' ' ? ' ' : '_'));
-        let incorrectGuesses = 0;
-
-        const wordElement = document.getElementById('word');
-        const lettersElement = document.getElementById('letters');
-
-        function updateWordDisplay() {
-            wordElement.innerHTML = guessedSentence.map(char => (char === ' ' ? '&nbsp;' : char)).join(' ');
-        }
-
-        function checkLetter(letter) {
-            const letterIndices = [];
-            for (let i = 0; i < sentenceArray.length; i++) {
-                if (sentenceArray[i] === letter) {
-                    letterIndices.push(i);
-                }
-            }
-
-            if (letterIndices.length > 0) {
-                letterIndices.forEach(index => {
-                    guessedSentence[index] = letter;
-                });
-
-                updateWordDisplay();
-                if (!guessedSentence.includes('_')) {
-                    alert('Gewonnen! Der Satz lautet: ' + sentenceToGuess);
-                }
-            } else {
-                incorrectGuesses++;
-                if (incorrectGuesses >= 6) {
-                    alert('Verloren! Der Satz lautet: ' + sentenceToGuess);
-                }
-            }
-        }
-
-        function createLetterButton(letter) {
-            const button = document.createElement('button');
-            button.textContent = letter;
-            button.className = 'letter';
-            button.addEventListener('click', () => {
-                if (!button.classList.contains('used')) {
-                    button.classList.add('used');
-                    checkLetter(letter);
-                }
-            });
-            return button;
-        }
-
-        for (let i = 65; i <= 90; i++) { // ASCII-Werte für A bis Z
-            const letter = String.fromCharCode(i);
-            lettersElement.appendChild(createLetterButton(letter));
-        }
-
-        updateWordDisplay();
-    </script>
-</body>
-</html> -->
-
-<!-- Neuer Code -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman Spiel</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: grey;
+        }
+
         .letter {
             display: inline-block;
             margin: 5px;
             font-size: 24px;
             cursor: pointer;
         }
+
         .used {
             color: gray;
+            pointer-events: none;
+            /* Deaktiviert Klicks auf bereits verwendete Buchstaben */
         }
+
         #remaining-tries {
             font-size: 20px;
             margin-top: 10px;
         }
+
+        #hangman-image {
+            max-width: 100%;
+            height: auto;
+            /* display: none; */
+        }
+
+        .letter-row {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        #new-game-button {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #try-again-text {
+            display: none;
+            font-size: 24px;
+            margin-top: 20px;
+        }
     </style>
 </head>
+
 <body>
     <h1>Hangman Spiel</h1>
     <div id="word"></div>
-    <div id="letters"></div>
-    <div id="remaining-tries">Versuche übrig: 6</div> <!-- Initialer Zählerwert -->
+    <div id="letters">
+        <div class="letter-row" id="row1"></div>
+        <div class="letter-row" id="row2"></div>
+        <div class="letter-row" id="row3"></div>
+    </div>
+    <div id="remaining-tries">Versuche übrig: 4</div> <!-- Initialer Zählerwert -->
+    <img id="hangman-image" src="" alt="Hangman Image">
+    <button id="new-game-button">Neues Spiel</button>
+    <div id="try-again-text">Versuchs nochmal</div>
 
     <script>
+        let gameInProgress = true;
+        let hangmanImageIndex = 0;
+
         // Vordefinierte Sätze, die der Spieler erraten kann
         const sentencesToGuess = [
             "Das ist ein einfacher Satz",
@@ -149,18 +98,26 @@
         const sentenceArray = sentenceToGuess.split('');
         const guessedSentence = sentenceArray.map(char => (char === ' ' ? ' ' : '_'));
         const incorrectLetters = []; // Falsch ausgewählte Buchstaben
-        let remainingTries = 6; // Gesamtzahl der Versuche
+        const correctLetters = []; // Richtige Buchstaben
+        let remainingTries = 4; // Gesamtzahl der Versuche
 
         const wordElement = document.getElementById('word');
-        const lettersElement = document.getElementById('letters');
+        const row1Element = document.getElementById('row1');
+        const row2Element = document.getElementById('row2');
+        const row3Element = document.getElementById('row3');
         const remainingTriesElement = document.getElementById('remaining-tries');
+        const hangmanImage = document.getElementById('hangman-image');
+        const newGameButton = document.getElementById('new-game-button');
+        const tryAgainText = document.getElementById('try-again-text');
 
         function updateWordDisplay() {
             wordElement.innerHTML = guessedSentence.map(char => (char === ' ' ? '&nbsp;' : char)).join(' ');
         }
 
         function checkLetter(letter) {
-            if (guessedSentence.includes(letter) || incorrectLetters.includes(letter)) {
+            if (!gameInProgress) return;
+
+            if (guessedSentence.includes(letter) || incorrectLetters.includes(letter) || correctLetters.includes(letter)) {
                 return; // Buchstabe wurde bereits ausgewählt
             }
 
@@ -179,7 +136,12 @@
                 });
 
                 updateWordDisplay();
+                correctLetters.push(letter);
+                markCorrectLetter(letter);
                 if (!guessedSentence.includes('_')) {
+                    gameInProgress = false;
+                    newGameButton.style.display = 'block';
+                    tryAgainText.style.display = 'none';
                     alert('Gewonnen! Der Satz lautet: ' + sentenceToGuess);
                 }
             } else {
@@ -188,12 +150,52 @@
                 remainingTries--;
                 remainingTriesElement.textContent = 'Versuche übrig: ' + remainingTries;
                 if (remainingTries === 0) {
+                    gameInProgress = false;
+                    newGameButton.style.display = 'block';
+                    tryAgainText.style.display = 'block';
+                    hangmanImage.style.display = 'block';
                     alert('Verloren! Der Satz lautet: ' + sentenceToGuess);
                 }
             }
         }
 
+        // function markIncorrectLetter(letter) {
+        //     const letterButtons = document.querySelectorAll('.letter');
+        //     letterButtons.forEach(button => {
+        //         if (button.textContent === letter) {
+        //             button.classList.add('used');
+        //         }
+        //     });
+        //     const imageNumber = 3 - remainingTries;
+        //     hangmanImage.src = `hangman${imageNumber}.png`;
+        // }
+
         function markIncorrectLetter(letter) {
+            const letterButtons = document.querySelectorAll('.letter');
+            letterButtons.forEach(button => {
+                if (button.textContent === letter) {
+                    button.classList.add('used');
+                }
+            });
+
+            if (!sentenceArray.includes(letter)) {
+                hangmanImageIndex++; // Erhöhe den Index bei einem Fehlversuch
+                const maxImageIndex = 4; // Ändern Sie dies entsprechend der Anzahl Ihrer Hangman-Bilder
+                if (hangmanImageIndex <= maxImageIndex) {
+                    hangmanImage.src = `hangman${hangmanImageIndex}.png`;
+                }
+            }
+
+            if (hangmanImageIndex >= maxImageIndex) { // Prüfen, ob das Maximum erreicht ist
+                gameInProgress = false;
+                newGameButton.style.display = 'block';
+                tryAgainText.style.display = 'block';
+                alert('Verloren! Der Satz lautet: ' + sentenceToGuess);
+            }
+
+        }
+
+        function markCorrectLetter(letter) {
             const letterButtons = document.querySelectorAll('.letter');
             letterButtons.forEach(button => {
                 if (button.textContent === letter) {
@@ -212,12 +214,33 @@
             return button;
         }
 
-        for (let i = 65; i <= 90; i++) { // ASCII-Werte für A bis Z
-            const letter = String.fromCharCode(i);
-            lettersElement.appendChild(createLetterButton(letter));
+        const row1Letters = 'ABCDEFG';
+        const row2Letters = 'HIJKLMNOP';
+        const row3Letters = 'QRSTUVWXYZ';
+
+        for (let i = 0; i < row1Letters.length; i++) {
+            const letter = row1Letters[i];
+            row1Element.appendChild(createLetterButton(letter));
         }
+
+        for (let i = 0; i < row2Letters.length; i++) {
+            const letter = row2Letters[i];
+            row2Element.appendChild(createLetterButton(letter));
+        }
+
+        for (let i = 0; i < row3Letters.length; i++) {
+            const letter = row3Letters[i];
+            row3Element.appendChild(createLetterButton(letter));
+        }
+
+        newGameButton.addEventListener('click', () => {
+            location.reload(); // Lädt die Seite neu, um ein neues Spiel zu starten
+        });
+
+        console.log(remainingTries);
 
         updateWordDisplay();
     </script>
 </body>
+
 </html>
