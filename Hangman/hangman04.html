@@ -171,7 +171,8 @@
                 hangmanImageIndex++; // Erhöhe den Index bei einem Fehlversuch
                 const maxImageIndex = 4; // Ändern Sie dies entsprechend der Anzahl Ihrer Hangman-Bilder
                 if (hangmanImageIndex <= maxImageIndex) {
-                    hangmanImage.src = `images/hangman${hangmanImageIndex}.png`;
+                    hangmanImage.src = `images/hangman${hangmanImageIndex}.png`;   // Pfadsuche von den PNG's
+                    ""
                 }
             }
 

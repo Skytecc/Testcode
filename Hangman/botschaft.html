@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nachricht verfassen</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            max-height: 150px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        input[type="button"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nachricht verfassen (maximal 300 Zeichen)</h1>
+        <form action="#" method="post">
+            <textarea id="botschaft" name="nachricht" maxlength="300" placeholder="Gib hier deine Botschaft ein (maximal 300 Zeichen)" required></textarea>
+            <input id="sendButton" type="button" value="Senden">
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+
+    let sendButton = document.getElementById("sendButton");
+
+    function eraseText() {
+    document.getElementById("botschaft").value = "";
+    document.getElementById("botschaft").ariaPlaceholder = "Gib hier deine Botschaft ein (maximal 300 Zeichen)";
+}
+
+    sendButton.addEventListener('click', () => {
+            eraseText();
+            location.reload(); // Lädt die Seite neu, um ein neues Spiel zu starten
+        });
+</script>
