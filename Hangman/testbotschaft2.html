@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nachricht verfassen</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            max-height: 150px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            background-color: #007bff;
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #ccc; /* Graue Hintergrundfarbe für deaktivierten Button */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nachricht verfassen (maximal 300 Zeichen)</h1>
+        <form action="#" method="post">
+            <textarea id="nachricht" name="nachricht" maxlength="100" placeholder="Gib hier deine Nachricht ein (maximal 300 Zeichen)" required></textarea>
+            <input type="button" value="Absenden" id="absendenButton" disabled>
+        </form>
+        <p id="charCount">0 Zeichen</p>
+    </div>
+    
+    <script>
+        const textarea = document.getElementById('nachricht');
+        const charCount = document.getElementById('charCount');
+        const absendenButton = document.getElementById('absendenButton');
+        
+        textarea.addEventListener('input', () => {
+            // charCount.textContent = textarea.value.length + ' Zeichen';
+            
+            if (textarea.value.length > 0) {
+                absendenButton.disabled = false;
+            } else {
+                absendenButton.disabled = true;
+            }
+        });
+
+    </script>
+</body>
+</html>

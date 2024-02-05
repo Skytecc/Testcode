@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Nachricht verfassen</title>
     <style>
@@ -47,29 +48,68 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Nachricht verfassen (maximal 300 Zeichen)</h1>
         <form action="#" method="post">
-            <textarea id="botschaft" name="nachricht" maxlength="300" placeholder="Gib hier deine Botschaft ein (maximal 300 Zeichen)" required></textarea>
-            <input id="sendButton" type="button" value="Senden">
+            <textarea id="botschaft" name="nachricht"
+                placeholder="Gib hier deine Botschaft ein (maximal 300 Zeichen)" required></textarea>
+            <input id="sendButton" type="button" disabled="disabled" value="Senden">
         </form>
     </div>
 </body>
+
 </html>
 
 <script>
 
     let sendButton = document.getElementById("sendButton");
+    let textValue = document.getElementById("botschaft").value;
+    let textLength = textValue.length;
+
+    textarea.addEventListener("input", function() {
+            const currentLength = this.value.length;
+            const maxLength = 100;
+
+            if (currentLength < 0) {
+            }
+    });
+
 
     function eraseText() {
-    document.getElementById("botschaft").value = "";
-    document.getElementById("botschaft").ariaPlaceholder = "Gib hier deine Botschaft ein (maximal 300 Zeichen)";
-    
-}
+        document.getElementById("botschaft").value = "";
+        document.getElementById("botschaft").ariaPlaceholder = "Gib hier deine Botschaft ein (maximal 300 Zeichen)";
+
+    }
+
+
+    // function test() {
+    //     if(this.value.lenght > 0) {
+    //         sendButton.ariaDisabled = true;
+    //     }
+
+    // }
+
+
+
+    // function testSend() {
+    //     if (textValue == "") {
+    //         sendButton.setAttribute("disabled", "disabled");
+    //         console.log("es sendet nicht");
+    //     }
+    //     else {
+    //         eraseText();
+    //         console.log("es sendet");
+    //     }
+    // }
 
     sendButton.addEventListener('click', () => {
-            eraseText();
-            location.reload(); // Lädt die Seite neu, um ein neues Spiel zu starten
-        });
+        testSend();
+    });
+
+    //     sendButton.addEventListener('click', () => {
+    //             eraseText();
+    //             location.reload(); // Lädt die Seite neu, um ein neues Spiel zu starten
+    //         });
 </script>
